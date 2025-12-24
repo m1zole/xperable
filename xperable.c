@@ -1150,7 +1150,11 @@ static void show_help(void)
 }
 
 
+#if defined(__APPLE__)
+int main(int argc, char **argv)
+#else
 int main(int argc, unsigned char **argv)
+#endif
 {
     int i;
     int res;

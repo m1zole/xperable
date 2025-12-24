@@ -77,6 +77,10 @@ else ifeq ($(CROSS_BUILD),x86_64)
   LDFLAGS += -static
 endif
 
+ifeq ($(shell uname),Darwin)
+   CPPFLAGS := -std=c++14
+endif
+
 PEPARSE_CMAKE_OPTS += -DCMAKE_BUILD_TYPE=Release \
   -DDEFAULT_CXX_FLAGS=-Wno-deprecated-declarations \
   -DCMAKE_COLOR_MAKEFILE=OFF -DCMAKE_MESSAGE_LOG_LEVEL=WARNING
@@ -122,7 +126,7 @@ $(XPERABLE): xperable-$(CROSS_BUILD).o pe-load-$(CROSS_BUILD).o fbusb-$(CROSS_BU
 	$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lpe-parse -lusb-1.0
 
 pe-load-$(CROSS_BUILD).o: pe-load.cpp pe-parse/build-$(CROSS_BUILD)/pe-parser-library/libpe-parse.a
-	$(CXX) $(CFLAGS) -o $@ -c $< -Ipe-parse/pe-parser-library/include
+	$(CXX) $(CFLAGS) $(CPPFLAGS) -o $@ -c $< -Ipe-parse/pe-parser-library/include
 
 pe-parse/CMakeLists.txt:
 	if [ -d .git ]; then git submodule update --init; \
