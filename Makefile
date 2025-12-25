@@ -26,6 +26,12 @@ ifneq ($(wildcard target-p118.c),)
   DEPENDS += LinuxLoader-p118.pe
 endif
 
+ifneq ($(wildcard target-q206.c),)
+  DEFINES += TARGET_ABL_Q206
+  TARGETS += target-q206.c
+  DEPENDS += LinuxLoader-q206.pe
+endif
+
 ifneq ($(wildcard target-q207.c),)
   DEFINES += TARGET_ABL_Q207
   TARGETS += target-q207.c

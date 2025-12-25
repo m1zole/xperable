@@ -99,6 +99,9 @@ struct xperable_target {
 #ifdef TARGET_ABL_P118
 #include "target-p118.c"
 #endif
+#ifdef TARGET_ABL_Q206
+#include "target-q206.c"
+#endif
 #ifdef TARGET_ABL_Q207
 #include "target-q207.c"
 #endif
@@ -113,6 +116,9 @@ static struct xperable_target yoshino_abl_targets[] = {
 #endif
 #ifdef TARGET_ABL_P118
     XPERABLE_TARGET("X_Boot_SDM845_LA2.0_P_118", p118),
+#endif
+#ifdef TARGET_ABL_Q206
+    XPERABLE_TARGET("X_Boot_SDM845_LA2.0.1_Q_206", q206),
 #endif
 #ifdef TARGET_ABL_Q207
     XPERABLE_TARGET("X_Boot_SDM845_LA2.0.1_Q_207", q207),
@@ -397,7 +403,11 @@ static int test3(struct fbusb *dev, int size, int offset, const char *cmd)
                 uint64_t addr = *(uint64_t *)(p + 1);
                 uint64_t base = *(uint64_t *)(p + 1 + 8);
                 addr += target->test3_hitadj;
+#if 1
                 base -= 0x97ffecddLL + 0x322D8LL;
+#else
+                base -= 0x97ffebeeLL + 0x3a494LL - 4LL;
+#endif
                 p[0] = '\0';
                 PNFO("test3 succeeded: distance = 0x%06x, hit from 0x%06x, base = 0x%06x "
                      "(offset=0x%02x size=0x%02x)\n", res, (int)addr, (int)base,
